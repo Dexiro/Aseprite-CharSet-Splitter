@@ -69,6 +69,11 @@ function RefreshCanvas()
   app.command.Redo()
 end
 
+function SplitTheImage_Transaction()
+	app.transaction(SplitTheImage)
+	RefreshCanvas()
+end
+
 function SplitTheImage()
   ---------------------------------------------
   -- check that the sprite selection is valid
@@ -100,22 +105,17 @@ function SplitTheImage()
   end
   local selectedImage = CopyAndSplitImage(currentImage, sprite.bounds, splitBounds, colorMode)
   
-  app.transaction(
-    function() 
-	  if doHideLayer then
-		app.layer.isVisible  = false
-	  end
-	  local layerName = app.layer.name
-	  local outputLayer = sprite:newLayer()
-	  outputLayer.name = layerName .. "_Splitted"
-	  local outputSprite = outputLayer.sprite
-	  local cel = sprite:newCel(outputLayer, currentCel.frameNumber)
-	  local backToOriginImage = Image(outputSprite.width,outputSprite.height, colorMode)
-	  backToOriginImage:drawImage(selectedImage)
-	  cel.image = backToOriginImage
-	end
-  )
-  RefreshCanvas()
+  if doHideLayer then
+	app.layer.isVisible  = false
+  end
+  local layerName = app.layer.name
+  local outputLayer = sprite:newLayer()
+  outputLayer.name = layerName .. "_Splitted"
+  local outputSprite = outputLayer.sprite
+  local cel = sprite:newCel(outputLayer, currentCel.frameNumber)
+  local backToOriginImage = Image(outputSprite.width,outputSprite.height, colorMode)
+  backToOriginImage:drawImage(selectedImage)
+  cel.image = backToOriginImage
 end
 
 
@@ -129,5 +129,5 @@ dialog
   :newrow()
   :check{id="hidelayer", text="Hide Current Layer", selected=true, onclick=ToggleHideLayer}
   :separator()
-  :button{text="Do The Thing",onclick=SplitTheImage}
+  :button{text="Do The Thing",onclick=SplitTheImage_Transaction}
   :show{wait=false}
