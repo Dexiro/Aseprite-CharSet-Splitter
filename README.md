@@ -1,4 +1,7 @@
-# Aseprite CharSet Animation Tool
+# Aseprite CharSet Splitter Tool
 
-Demo of the "Vertical Splits" option:
+Demo of the "Vertical Splits" function
 ![](Screenshots/CharSetSplitter_Demo1.PNG)
+
+## Script Installation
+![](Screenshots/ScriptInstallation.png)
